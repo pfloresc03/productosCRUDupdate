@@ -8,7 +8,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <a href="ServletProductos">Arrancar</a>
+        <h1>Gestión de Productos</h1>
+        <p><a href="ServletProductos?op=listar">Listar</a></p>
+        <p><a href="ServletProductos?op=insert1">Insert</a></p>
     </body>
 </html>

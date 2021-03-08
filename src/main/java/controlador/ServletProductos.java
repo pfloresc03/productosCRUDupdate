@@ -33,7 +33,7 @@ public class ServletProductos extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+        String op = request.getParameter("op");
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -42,18 +42,42 @@ public class ServletProductos extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ServletProductos at " + request.getContextPath() + "</h1>");
-            List<Productos> misProductos = ProductosCRUD.getProductos();
-            for (Productos p: misProductos ){
-                out.println(p.getNombre() );
+            if ( op.equals("listar")){
+                List<Productos> misProductos = ProductosCRUD.getProductos();
+                request.setAttribute("misProductos", misProductos);
+                request.getRequestDispatcher("listar.jsp").forward(request, response);
+                
+//                for (Productos p: misProductos ){
+//                    out.println(p.getNombre() );
+//                }
             }
-            Productos miProducto = new Productos();
+            if ( op.equals("insert1")) { //cuando le indicamos que vaya a insertar
+                 request.getRequestDispatcher("insert.jsp").forward(request, response);
+            }
+            if ( op.equals("insert2")) { //cuando le indicamos que vaya a insertar
+                
+                    Productos miProducto = new Productos();
+                    miProducto.setNombre(request.getParameter("nombre"));
+                    miProducto.setImagen(request.getParameter("imagen"));
+                    miProducto.setCategoria(request.getParameter("categoria"));
+                    String precio=request.getParameter("precio");
+                    miProducto.setPrecio(Float.parseFloat(precio));
+                    ProductosCRUD.insertaProducto(miProducto);
+                    out.println("<h1>Registro insertado " + "<a href='index.jsp'>Volver</a>" + "</h1>");
+                    
+
+            }
+            if ( op.equals("borrar")) { //cuando le indicamos que vaya a borrar
+                int id = Integer.parseInt(request.getParameter("id"));
+                if ( ProductosCRUD.destroyProducto(id)>0 ) {
+                    out.println("<h1>Registro Borrado " + "<a href='index.jsp'>Volver</a>" + "</h1>");
+                }
+                 
+            }
+
+           
 //            miProducto.setId(11);
-            miProducto.setNombre("Tarta de melón");
-            miProducto.setImagen("tartamelon.jpg");
-            miProducto.setCategoria("Postres");
-            miProducto.setPrecio(6.0f);
-            //ProductosCRUD.actualizaProducto(miProducto);
-            ProductosCRUD.insertaProducto(miProducto);
+
             out.println("</body>");
             out.println("</html>");
 

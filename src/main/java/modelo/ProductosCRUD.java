@@ -64,7 +64,7 @@ public class ProductosCRUD {
         manager.getTransaction().begin();
         int filasAfectadas = q.executeUpdate();
         manager.getTransaction().commit();
-        //manager.close();
+        manager.close();
         return filasAfectadas;      
     }
        
@@ -75,4 +75,16 @@ public class ProductosCRUD {
         manager.merge(producto);
         manager.getTransaction().commit();
         }
+        
+        public static int destroyProducto(int id) {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("com.mycompany_productosCRUDupdate_war_1PU");
+        EntityManager manager = factory.createEntityManager();
+        String sql = "DELETE from Productos p WHERE p.id = " + id;
+        Query q = manager.createQuery(sql);
+        manager.getTransaction().begin();
+        int filasAfectadas = q.executeUpdate(); //para las consultas de modif. datos se usa el método executeUpdate
+        manager.getTransaction().commit();
+        return filasAfectadas;  
+    }
+
 }
