@@ -86,5 +86,16 @@ public class ProductosCRUD {
         manager.getTransaction().commit();
         return filasAfectadas;  
     }
+        
+      public static Productos getProducto(int id) {  //devuelve un objeto de clase Productos
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("com.mycompany_productosCRUDupdate_war_1PU");
+        EntityManager manager = factory.createEntityManager();
+        String sql = "SELECT p FROM Productos p WHERE p.id=" + id;
+        Query q = manager.createQuery(sql,Productos.class); //método para consultas en SQL
+        Productos miProducto =  ( Productos ) q.getSingleResult(); //para un único registro
+        manager.close();
+        return  miProducto;
+        } 
+
 
 }
