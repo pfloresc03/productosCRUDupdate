@@ -58,6 +58,13 @@
         <input type="submit" value="Actualizar" >       
         </form>
         <script>
+            	window.onbeforeunload = confirmExit;
+            	function confirmExit()
+            	{
+              	return "Seguro que quiere salir?";
+            	}
+     	</script>
+        <script>
             function borraMensaje(){
                 document.getElementById("mensaje").style.display ="none";
             }
