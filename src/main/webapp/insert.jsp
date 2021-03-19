@@ -14,7 +14,16 @@
 
     </head>
     <body>
-        
+        <%
+            HttpSession sesion = request.getSession();
+            String usuarioLogeado = ( String ) sesion.getAttribute("usuarioLogeado");
+            if ( usuarioLogeado == null ) {
+                String mensaje="Debe logearse";
+                request.setAttribute("mensaje", mensaje);
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }        
+                
+        %>
   <nav class="navbar navbar-expand-md bg-dark navbar-dark">
   <!-- Brand -->
   <a class="navbar-brand" href="#">Restaurante Bosco</a>
@@ -34,10 +43,11 @@
         <a class="nav-link" href="ServletProductos?op=insert1"">Nuevo Producto</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">TPV</a>
+        <a class="nav-link" href="servletLogin">Login</a>
       </li>
     </ul>
   </div>
+  <div style="color:white">Usuario: <%=usuarioLogeado%>|<a href="servletLogin">Salir</a></div>
 </nav>
         <h1>Actu producto</h1>
         <form action="ServletProductos?op=insert2" method="get">

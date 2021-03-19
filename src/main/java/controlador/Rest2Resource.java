@@ -5,11 +5,14 @@
  */
 package controlador;
 
+import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
@@ -65,15 +68,41 @@ public class Rest2Resource {
     @GET
    @Path("/producto/{id}")
    @Produces(MediaType.APPLICATION_JSON)
-    public Response getProductoJson(@PathParam("id") int id  ) {
-        Productos miProducto = ProductosCRUD.getProducto(id);
-        String nombre = miProducto.getNombre();
-        String imagen = miProducto.getImagen();
-        
-        String persona = "{\"nombre\":\""+nombre+"\",\"imagen\":\""+imagen+"\",\"pais\":\"España\"}";
-       
-     ResponseBuilder res = Response.ok(persona);   
-    return res.build();
+    public Productos getProductoJson(@PathParam("id") int id  ) {
+        Productos miProducto = ProductosCRUD.getProducto(id); 
+        return miProducto;
+    }
+    
+    @GET
+    @Path("/productos")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Productos> getProductosJson() {
+        List <Productos> misProductos = ProductosCRUD.getProductos(); 
+        return misProductos;
+    }
+    
+    @PUT
+    @Path("/producto")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Productos updateProductoJson(Productos prod) {
+        ProductosCRUD.actualizaProducto(prod); 
+        return prod;
+    }
+    
+    @POST
+    @Path("/producto")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Productos insertaProductoJson(Productos prod) {
+        ProductosCRUD.insertaProducto(prod); 
+        return prod;
+    }
+    
+    @DELETE
+    @Path("/producto/{id}")
+    public void borraProductoJson(@PathParam("id") int id) {
+        ProductosCRUD.destroyProducto(id); 
     }
 
 //    public String getJson() {
